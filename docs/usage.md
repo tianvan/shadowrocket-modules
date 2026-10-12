@@ -4,6 +4,18 @@
 
 先选择可用节点，临时使用全局路由「代理」确认能够访问 ChatGPT。若全局代理也失败，应先检查节点连接；分流模块无法修复不可用的节点。
 
+## 扫码安装
+
+在 iPhone 上使用小火箭的扫码入口扫描二维码，先导入基础配置，再安装模块。相机若识别到链接，可以点击提示跳转；同机浏览时可保存二维码，从小火箭扫码入口选择相册（具体入口以当前版本为准）。
+
+| ① 直连基础配置 | ② OpenAI 分流模块 |
+| --- | --- |
+| <img src="../assets/qrcodes/Direct.png" alt="导入 Direct.conf" width="256"> | <img src="../assets/qrcodes/OpenAI.png" alt="安装 OpenAI 模块" width="256"> |
+
+导入后：**Direct.conf → 使用配置**，启用 **ChatGPT / OpenAI 分流**模块，禁用其他分流模块，首页全局路由选择「配置」，连接可用节点。
+
+二维码使用社区手册记录的 `shadowrocket://config/add/{url}` 和 `shadowrocket://install?module={url}` 安装协议。它们只是现有公开下载地址的快捷入口，不包含节点、账号或证书。若当前版本不能扫码识别安装协议，使用下方的 URL 下载步骤。
+
 ## 只代理 ChatGPT / OpenAI，其余直连
 
 默认配置包含其他服务的分流规则。如果希望只有 OpenAI 模块匹配的请求使用代理，先下载并使用独立的直连基础配置：

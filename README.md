@@ -12,6 +12,16 @@
 
 ## 安装
 
+### 二维码安装
+
+用 iPhone 在小火箭的扫码入口扫描下列二维码，分别导入配置和模块；相机若能识别安装链接，也可以点击提示跳转到小火箭。若页面就在同一部 iPhone 上，可保存图片后从扫码入口选择相册（以当前版本提供的选项为准）。
+
+| ① 导入直连基础配置 | ② 安装 OpenAI 模块 |
+| --- | --- |
+| <img src="assets/qrcodes/Direct.png" alt="导入 Direct.conf 二维码" width="256"> | <img src="assets/qrcodes/OpenAI.png" alt="安装 OpenAI 模块二维码" width="256"> |
+
+导入后选择 **Direct.conf → 使用配置**，启用 **ChatGPT / OpenAI 分流**模块；只启用该分流模块，首页 **全局路由选择「配置」**，连接可用代理节点。二维码包含小火箭安装链接，无需输入 URL。二维码内容可以解码验证；iPhone 的扫码跳转和导入仍需实机确认。
+
 ### ChatGPT 相关请求代理，其余直连（推荐组合）
 
 先通过 **配置页面右上角＋** 下载 [Direct.conf](https://raw.githubusercontent.com/tianvan/shadowrocket-modules/main/configs/Direct.conf)，点击下载后的文件并选择「使用配置」：
@@ -61,6 +71,7 @@ pwsh -NoProfile -File scripts/validate.ps1 -CheckRemote
 ```text
 configs/         可通过 URL 下载的基础配置
 modules/routing/  分流模块，保持发布路径稳定
+assets/qrcodes/   配置与模块的安装二维码
 docs/            使用说明、维护约定、已批准设计和实施计划
 scripts/         本地与 CI 共用的校验工具
 .github/workflows/ GitHub Actions 检查

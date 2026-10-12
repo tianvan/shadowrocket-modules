@@ -40,6 +40,10 @@ GitHub 仓库为 [tianvan/shadowrocket-modules](https://github.com/tianvan/shado
 
 安装文件路径固定为 `modules/routing/OpenAI.module` 和 `configs/Direct.conf`。更新内容使用 Git 提交记录，路径不加入日期或版本号。确需移动时保留旧路径兼容，避免用户已有 URL 失效。
 
+`assets/qrcodes/Direct.png` 和 `assets/qrcodes/OpenAI.png` 分别编码配置导入与模块安装协议，引用上述固定 Raw URL。仅修改配置或模块内容时二维码无需重做；改变仓库名、分支或安装文件路径时，需要同步更新二维码和安装说明，并用独立二维码读取器验证解码内容。
+
+协议依据：[Shadowrocket 社区手册 URL-Schemes](https://github.com/LOWERTOP/Shadowrocket#url-schemes)。当前生成结果使用标准黑白二维码和四格空白边框，不叠加图标。二维码数据已可在电脑解码核对，但手机识别、跳转和导入需要实机验证。
+
 上线前运行：
 
 ```powershell
