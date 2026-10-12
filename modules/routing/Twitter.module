@@ -1,0 +1,5 @@
+#!name=Twitter / X 分流
+#!desc=引用 blackmatrix7 的 Twitter 规则集，Twitter / X、媒体及 Grok 等相关请求使用当前代理节点。
+
+[Rule]
+RULE-SET,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Twitter/Twitter.list,PROXY

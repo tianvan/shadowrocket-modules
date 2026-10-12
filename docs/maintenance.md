@@ -5,6 +5,7 @@
 | 模块 | 上游规则 | 策略 |
 | --- | --- | --- |
 | `modules/routing/OpenAI.module` | [OpenAI.list](https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/OpenAI/OpenAI.list) | PROXY |
+| `modules/routing/Twitter.module` | [Twitter.list](https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Twitter/Twitter.list) | PROXY |
 
 模块直接引用 [blackmatrix7/ios_rule_script](https://github.com/blackmatrix7/ios_rule_script) 的 `master` 分支，不在本仓库镜像域名列表。因此不需要 fork、Git submodule 或同步上游工作流。
 
@@ -30,7 +31,7 @@
 1. 纯分流放入 `modules/routing/`，统一以服务或用途命名，后缀为 `.module`。
 2. 每个模块至少包含 `#!name`、`#!desc`、`[Rule]` 和一条有效引用。
 3. 第一版校验器仅支持 HTTPS 的 `RULE-SET` / `DOMAIN-SET` 引用，以及 `PROXY` / `DIRECT` / `REJECT` 内置策略。增加新类型前先扩展检查；不要误以为这是小火箭全部支持的语法。
-4. 上游 README 要求成对使用的文件必须同时引用：普通 `.list` 用 RULE-SET，纯域名 `_Domain.list` 用 DOMAIN-SET。OpenAI.list 可以单独使用。
+4. 上游 README 要求成对使用的文件必须同时引用：普通 `.list` 用 RULE-SET，纯域名 `_Domain.list` 用 DOMAIN-SET。OpenAI.list、Twitter.list 各自可以单独使用。Twitter.list 的 IP 规则带 no-resolve，覆盖范围还包括 grok.com 和 Twitter 关键词。
 5. 新增复写模块时创建 `modules/rewrite/`，同时说明脚本来源、配置修改范围和解密需求，并扩展校验工具。
 6. 一项用途一个模块，避免把 FINAL、DNS 等全局设置混入服务分流模块。公共依赖域名可能影响其他应用，不承诺按应用进程隔离。
 
@@ -38,9 +39,11 @@
 
 GitHub 仓库为 [tianvan/shadowrocket-modules](https://github.com/tianvan/shadowrocket-modules)，模块安装入口见 README。发布更新时，先检查再提交并推送 `main`，确认 GitHub Actions 和公开模块下载结果。
 
-安装文件路径固定为 `modules/routing/OpenAI.module` 和 `configs/direct.conf`。更新内容使用 Git 提交记录，路径不加入日期或版本号。确需移动时保留旧路径兼容，避免用户已有 URL 失效。
+安装文件路径固定为 `modules/routing/OpenAI.module`、`modules/routing/Twitter.module` 和 `configs/direct.conf`。更新内容使用 Git 提交记录，路径不加入日期或版本号。确需移动时保留旧路径兼容，避免用户已有 URL 失效。
 
 `assets/qrcodes/Direct.png` 和 `assets/qrcodes/OpenAI.png` 编码 HTTPS 安装页地址，分别为 `https://tianvan.github.io/shadowrocket-modules/install/#direct` 和 `https://tianvan.github.io/shadowrocket-modules/install/#openai`。iPhone 使用系统相机打开网页，再点击页面安装按钮或复制 URL；小火箭模块添加页面本身没有扫码入口。
+
+`assets/qrcodes/Twitter.png` 指向 `https://tianvan.github.io/shadowrocket-modules/install/#twitter`，对应 Twitter / X 安装按钮和复制 URL。每增加一个模块，同步更新安装页、README、使用说明和来源表，二维码仍只编码 HTTPS 安装页。
 
 `docs/install/index.html` 提供固定安装按钮和 Raw URL，不从查询参数拼接任意跳转目标。`install.js` 只处理复制按钮，复制失败会选择地址并提示手动复制。通过 GitHub Pages 从 `main` 分支的 `/docs` 发布，`docs/.nojekyll` 保留静态文件。
 

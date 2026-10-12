@@ -2,11 +2,11 @@
 
 ## 准备
 
-先选择可用节点，临时使用全局路由「代理」确认能够访问 ChatGPT。若全局代理也失败，应先检查节点连接；分流模块无法修复不可用的节点。
+先选择可用节点，临时使用全局路由「代理」确认能够访问目标服务（ChatGPT 或 Twitter / X）。若全局代理也失败，应先检查节点连接；分流模块无法修复不可用的节点。
 
 ## 使用手机安装页
 
-在 iPhone 的 **Safari** 打开 [安装页](https://tianvan.github.io/shadowrocket-modules/install/)，分别点击「导入 direct.conf」和「安装 OpenAI 模块」，允许打开 Shadowrocket。
+在 iPhone 的 **Safari** 打开 [安装页](https://tianvan.github.io/shadowrocket-modules/install/)，首次使用时点击「导入 direct.conf」，按需要点击 OpenAI 或 Twitter / X 的安装按钮，允许打开 Shadowrocket。
 
 如果在电脑上浏览，用 **iPhone 系统相机**扫描以下二维码，打开同一个 HTTPS 安装页。模块添加页面只有 URL 输入入口，没有扫码入口；不用在小火箭内找相册扫码功能。
 
@@ -14,13 +14,31 @@
 | --- | --- |
 | <img src="../assets/qrcodes/Direct.png" alt="导入 direct.conf" width="256"> | <img src="../assets/qrcodes/OpenAI.png" alt="安装 OpenAI 模块" width="256"> |
 
-导入后：**direct.conf → 使用配置**，启用 **ChatGPT / OpenAI 分流**模块，禁用其他分流模块，首页全局路由选择「配置」，连接可用节点。
+导入后：**direct.conf → 使用配置**，按需要启用 **ChatGPT / OpenAI 分流**和 / 或 **Twitter / X 分流**模块，首页全局路由选择「配置」，连接可用节点。希望其余直连时，只启用自己需要的服务模块。
 
 二维码编码 HTTPS 安装页地址。网页按钮使用社区手册记录的 `shadowrocket://config/add/{url}` 和 `shadowrocket://install?module={url}` 安装协议，它们只是现有公开下载地址的快捷入口，不包含节点、账号或证书。手机仍需验证应用跳转和导入。
 
 如果按钮无法跳转，点页面的「复制配置 URL」或「复制模块 URL」，返回对应的 URL 添加页粘贴。若浏览器禁止自动复制，页面会选中地址，长按选择「复制」即可。
 
 原来的 `Direct.conf` 下载地址已改为小写 `direct.conf`；曾导入旧地址时，使用当前地址重新添加配置，确认成功后再删除旧配置。
+
+## 添加 Twitter / X 分流
+
+在 iPhone Safari 打开 [Twitter / X 一键安装页](https://tianvan.github.io/shadowrocket-modules/install/#twitter)，点击「安装 Twitter / X 模块」。电脑上浏览时用 iPhone 系统相机扫码打开该页面：
+
+<img src="../assets/qrcodes/Twitter.png" alt="安装 Twitter / X 模块" width="256">
+
+如果安装按钮无法跳转，复制模块 URL，在 **配置 → 模块 → 右上角＋** 粘贴并下载：
+
+```text
+https://raw.githubusercontent.com/tianvan/shadowrocket-modules/main/modules/routing/Twitter.module
+```
+
+启用 **Twitter / X 分流**，保持当前基础配置为 direct.conf、全局路由为「配置」，连接可用代理节点。已导入 direct.conf 时不用重复添加；可以同时启用 OpenAI 模块。这样两个模块匹配的请求走代理，其余请求直连。
+
+上游 [Twitter 规则说明](https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/Shadowrocket/Twitter)建议以 RULE-SET 单独使用 Twitter.list；该版本的 IP 规则带 no-resolve。本模块按该方式引用，覆盖 x.com、twitter.com、t.co、twimg.com 等，当前也包含 grok.com、Twitter 关键词和部分 IP。它不按 App 进程隔离，不添加 DNS、FINAL、脚本或 HTTPS 解密。
+
+验证时，在「规则集 URL」确认 Twitter.list 下载成功，使用「测试规则」检查 `x.com`、`twitter.com`、`t.co`、`pbs.twimg.com`、`grok.com` → `PROXY`；使用 direct.conf 且只启用所需服务模块时，`baidu.com` → `DIRECT`。再打开 X 检查登录、时间线、图片和视频。禁用 Twitter 模块并重新使用配置后，`x.com` 应变为 DIRECT；重新启用后应恢复 PROXY。
 
 ## 只代理 ChatGPT / OpenAI，其余直连
 

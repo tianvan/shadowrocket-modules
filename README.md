@@ -4,17 +4,18 @@
 
 ## 模块
 
-| 模块 | 用途 | 策略 | HTTPS 解密 | 下载 |
-| --- | --- | --- | --- | --- |
-| [OpenAI](modules/routing/OpenAI.module) | ChatGPT / OpenAI 及规则集中包含的公共依赖域名 | PROXY，使用当前选择的节点 | 无需 | [模块 Raw URL](https://raw.githubusercontent.com/tianvan/shadowrocket-modules/main/modules/routing/OpenAI.module) |
+| 模块 | 用途 | 策略 | HTTPS 解密 | 一键安装 | 下载 |
+| --- | --- | --- | --- | --- | --- |
+| [OpenAI](modules/routing/OpenAI.module) | ChatGPT / OpenAI 及规则集中包含的公共依赖域名 | PROXY，使用当前选择的节点 | 无需 | [安装页](https://tianvan.github.io/shadowrocket-modules/install/#openai) | [模块 Raw URL](https://raw.githubusercontent.com/tianvan/shadowrocket-modules/main/modules/routing/OpenAI.module) |
+| [Twitter / X](modules/routing/Twitter.module) | Twitter / X、短链接、媒体及 Grok 等上游规则覆盖的请求 | PROXY，使用当前选择的节点 | 无需 | [安装页](https://tianvan.github.io/shadowrocket-modules/install/#twitter) | [模块 Raw URL](https://raw.githubusercontent.com/tianvan/shadowrocket-modules/main/modules/routing/Twitter.module) |
 
-模块引用 [blackmatrix7/ios_rule_script 的 OpenAI 规则集](https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/Shadowrocket/OpenAI)。域名列表由上游维护，本仓库维护引用方式和策略。
+模块分别引用 blackmatrix7/ios_rule_script 的 [OpenAI 规则集](https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/Shadowrocket/OpenAI)和 [Twitter 规则集](https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/Shadowrocket/Twitter)。规则列表由上游维护，本仓库维护引用方式和策略。
 
 ## 安装
 
 ### 手机安装页与二维码
 
-在 iPhone 的 **Safari** 打开 [安装页](https://tianvan.github.io/shadowrocket-modules/install/)，点击「导入 direct.conf」和「安装 OpenAI 模块」，允许跳转到 Shadowrocket。
+在 iPhone 的 **Safari** 打开 [安装页](https://tianvan.github.io/shadowrocket-modules/install/)，首次使用时点击「导入 direct.conf」，再按需要点击 OpenAI 或 Twitter / X 的安装按钮，允许跳转到 Shadowrocket。
 
 如果页面显示在电脑上，用 **iPhone 系统相机**扫描下列二维码打开安装页。模块添加页面只有 URL 输入入口，没有扫码入口；二维码不需要在模块页面扫描。
 
@@ -22,7 +23,21 @@
 | --- | --- |
 | <img src="assets/qrcodes/Direct.png" alt="导入 direct.conf 二维码" width="256"> | <img src="assets/qrcodes/OpenAI.png" alt="安装 OpenAI 模块二维码" width="256"> |
 
-导入后选择 **direct.conf → 使用配置**，启用 **ChatGPT / OpenAI 分流**模块；只启用该分流模块，首页 **全局路由选择「配置」**，连接可用代理节点。若安装按钮没有跳转，可点页面的「复制 URL」后返回对应添加页面粘贴，仍无需手输地址。二维码解码与网页按钮可在电脑验证；iPhone 的应用跳转和导入需实机确认。
+导入后选择 **direct.conf → 使用配置**，按需要启用 **ChatGPT / OpenAI 分流**和 / 或 **Twitter / X 分流**模块，首页 **全局路由选择「配置」**，连接可用代理节点。若安装按钮没有跳转，可点页面的「复制 URL」后返回对应添加页面粘贴，仍无需手输地址。二维码解码与网页按钮可在电脑验证；iPhone 的应用跳转和导入需实机确认。
+
+### 添加 Twitter / X 模块
+
+用 iPhone Safari 打开 [Twitter / X 一键安装页](https://tianvan.github.io/shadowrocket-modules/install/#twitter)，点击「安装 Twitter / X 模块」。电脑上可用 iPhone 系统相机扫描：
+
+<img src="assets/qrcodes/Twitter.png" alt="安装 Twitter / X 模块二维码" width="256">
+
+已使用 direct.conf 时，只需添加并启用 **Twitter / X 分流**，可同时保留 OpenAI 模块；匹配这两个模块的请求走代理，其余直连。在「测试规则」检查 `x.com`、`twitter.com`、`t.co`、`pbs.twimg.com` → `PROXY`，`baidu.com` → `DIRECT`，再打开 X 验证登录、图片和视频。
+
+上游 Twitter 规则包含 `grok.com`、`DOMAIN-KEYWORD,twitter` 和部分 IP，因此覆盖范围不限于 X App 本身。不需要 HTTPS 解密或证书。手动添加时使用以下 Raw URL：
+
+```text
+https://raw.githubusercontent.com/tianvan/shadowrocket-modules/main/modules/routing/Twitter.module
+```
 
 ### ChatGPT 相关请求代理，其余直连（推荐组合）
 
