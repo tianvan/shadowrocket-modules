@@ -2,11 +2,11 @@
 
 ## 准备
 
-先选择可用节点，临时使用全局路由「代理」确认能够访问目标服务（ChatGPT 或 Twitter / X）。若全局代理也失败，应先检查节点连接；分流模块无法修复不可用的节点。
+先选择可用节点，临时使用全局路由「代理」确认能够访问目标服务。若全局代理也失败，应先检查节点连接；分流模块无法修复不可用的节点。
 
 ## 使用手机安装页
 
-在 iPhone 的 **Safari** 打开 [安装页](https://tianvan.github.io/shadowrocket-modules/install/)，首次使用时点击「导入 direct.conf」，按需要点击 OpenAI 或 Twitter / X 的安装按钮，允许打开 Shadowrocket。
+在 iPhone 的 **Safari** 打开 [安装页](https://tianvan.github.io/shadowrocket-modules/install/)，首次使用时点击「导入 direct.conf」，按需要点击服务模块的安装按钮，允许打开 Shadowrocket。
 
 如果在电脑上浏览，用 **iPhone 系统相机**扫描以下二维码，打开同一个 HTTPS 安装页。模块添加页面只有 URL 输入入口，没有扫码入口；不用在小火箭内找相册扫码功能。
 
@@ -14,13 +14,44 @@
 | --- | --- |
 | <img src="../assets/qrcodes/Direct.png" alt="导入 direct.conf" width="256"> | <img src="../assets/qrcodes/OpenAI.png" alt="安装 OpenAI 模块" width="256"> |
 
-导入后：**direct.conf → 使用配置**，按需要启用 **ChatGPT / OpenAI 分流**和 / 或 **Twitter / X 分流**模块，首页全局路由选择「配置」，连接可用节点。希望其余直连时，只启用自己需要的服务模块。
+导入后：**direct.conf → 使用配置**，按需要启用 OpenAI、Twitter / X、Telegram、Google 模块，可以同时启用，首页全局路由选择「配置」，连接可用节点。希望其余直连时，只启用自己需要的服务模块。
 
 二维码编码 HTTPS 安装页地址。网页按钮使用社区手册记录的 `shadowrocket://config/add/{url}` 和 `shadowrocket://install?module={url}` 安装协议，它们只是现有公开下载地址的快捷入口，不包含节点、账号或证书。手机仍需验证应用跳转和导入。
 
 如果按钮无法跳转，点页面的「复制配置 URL」或「复制模块 URL」，返回对应的 URL 添加页粘贴。若浏览器禁止自动复制，页面会选中地址，长按选择「复制」即可。
 
 原来的 `Direct.conf` 下载地址已改为小写 `direct.conf`；曾导入旧地址时，使用当前地址重新添加配置，确认成功后再删除旧配置。
+
+## 添加 Telegram 和 Google 分流
+
+在 iPhone Safari 打开对应安装页，点击安装按钮。电脑上浏览时用 iPhone 系统相机扫码：
+
+| [Telegram 一键安装](https://tianvan.github.io/shadowrocket-modules/install/#telegram) | [Google 一键安装](https://tianvan.github.io/shadowrocket-modules/install/#google) |
+| --- | --- |
+| <img src="../assets/qrcodes/Telegram.png" alt="安装 Telegram 模块" width="256"> | <img src="../assets/qrcodes/Google.png" alt="安装 Google 模块" width="256"> |
+
+按钮无法打开时，点「复制模块 URL」，在 **配置 → 模块 → 右上角＋** 粘贴对应地址并下载：
+
+```text
+https://raw.githubusercontent.com/tianvan/shadowrocket-modules/main/modules/routing/Telegram.module
+https://raw.githubusercontent.com/tianvan/shadowrocket-modules/main/modules/routing/Google.module
+```
+
+启用 **Telegram 分流**和 **Google 分流**，保持当前配置为 direct.conf、全局路由为「配置」，连接可用节点。可以继续启用 OpenAI 和 Twitter 模块，已使用 direct.conf 时无需重复导入配置。
+
+Telegram.list 单独以 RULE-SET 引用，已包含 TelegramNL、TelegramSG、TelegramUS 子规则；不必再添加这些地区规则。列表覆盖域名、IPv4 / IPv6 数据中心地址及 ASN，也包括部分第三方客户端相关域名。通话是否成功还取决于节点 UDP 能力及 Telegram 的通话设置，分流模块不改变通话设置。
+
+Google.list 单独以 RULE-SET 引用，已包含 GoogleSearch、GoogleDrive、GoogleVoice；不必重复引用这些子规则。上游明确排除 YouTube / YouTubeMusic 专属规则，所以本模块不保证 YouTube 可用。它还覆盖广告、统计、公共资源和部分国内可访问的 Google 域名，公共 IP 及关键词规则也可能影响其他应用请求。
+
+在「规则集 URL」确认 Telegram.list、Google.list 下载成功，再用「测试规则」检查：
+
+| 已启用模块 | 测试目标 | 预期策略 |
+| --- | --- | --- |
+| Telegram | telegram.org、t.me、149.154.167.50 | PROXY |
+| Google | google.com、mail.google.com、drive.google.com、gstatic.com | PROXY |
+| 使用 direct.conf 且仅启用所需服务模块 | baidu.com | DIRECT |
+
+随后在 Telegram 验证消息与图片，在 Google 验证搜索和所需服务。规则测试只证明匹配策略；实际访问仍取决于节点。禁用对应模块并重新使用配置后，telegram.org 或 google.com 应变为 DIRECT；重新启用后应恢复 PROXY。
 
 ## 添加 Twitter / X 分流
 

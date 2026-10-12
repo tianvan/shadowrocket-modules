@@ -6,8 +6,14 @@
 | --- | --- | --- |
 | `modules/routing/OpenAI.module` | [OpenAI.list](https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/OpenAI/OpenAI.list) | PROXY |
 | `modules/routing/Twitter.module` | [Twitter.list](https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Twitter/Twitter.list) | PROXY |
+| `modules/routing/Telegram.module` | [Telegram.list](https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Telegram/Telegram.list) | PROXY |
+| `modules/routing/Google.module` | [Google.list](https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Google/Google.list) | PROXY |
 
 模块直接引用 [blackmatrix7/ios_rule_script](https://github.com/blackmatrix7/ios_rule_script) 的 `master` 分支，不在本仓库镜像域名列表。因此不需要 fork、Git submodule 或同步上游工作流。
+
+Telegram.list 和 Google.list 各自以 RULE-SET 单独使用。Telegram 已包含地区子规则；Google 已包含 Search、Drive、Voice 子规则，上游明确排除 YouTube 和 YouTubeMusic 专属规则。Telegram 有 IP / ASN 规则，Google 的广告、统计、公共资源及部分国内可访问域名也在代理范围内。
+
+按 [Shadowrocket 社区手册](https://github.com/LOWERTOP/Shadowrocket#使用目录)，IP-CIDR 支持 IPv4 和 IPv6；本仓库检查器按地址族检查前缀上限，IP-CIDR6 只接受 IPv6。直接引用上游 Shadowrocket 列表时不改写其 IPv6 规则。`scripts/test-rule-content.ps1` 保留有效地址与无效地址的回归检查，CI 同步执行。
 
 ## 直连基础配置
 
@@ -39,11 +45,13 @@
 
 GitHub 仓库为 [tianvan/shadowrocket-modules](https://github.com/tianvan/shadowrocket-modules)，模块安装入口见 README。发布更新时，先检查再提交并推送 `main`，确认 GitHub Actions 和公开模块下载结果。
 
-安装文件路径固定为 `modules/routing/OpenAI.module`、`modules/routing/Twitter.module` 和 `configs/direct.conf`。更新内容使用 Git 提交记录，路径不加入日期或版本号。确需移动时保留旧路径兼容，避免用户已有 URL 失效。
+安装文件路径固定为 `modules/routing/OpenAI.module`、`modules/routing/Twitter.module`、`modules/routing/Telegram.module`、`modules/routing/Google.module` 和 `configs/direct.conf`。更新内容使用 Git 提交记录，路径不加入日期或版本号。确需移动时保留旧路径兼容，避免用户已有 URL 失效。
 
 `assets/qrcodes/Direct.png` 和 `assets/qrcodes/OpenAI.png` 编码 HTTPS 安装页地址，分别为 `https://tianvan.github.io/shadowrocket-modules/install/#direct` 和 `https://tianvan.github.io/shadowrocket-modules/install/#openai`。iPhone 使用系统相机打开网页，再点击页面安装按钮或复制 URL；小火箭模块添加页面本身没有扫码入口。
 
 `assets/qrcodes/Twitter.png` 指向 `https://tianvan.github.io/shadowrocket-modules/install/#twitter`，对应 Twitter / X 安装按钮和复制 URL。每增加一个模块，同步更新安装页、README、使用说明和来源表，二维码仍只编码 HTTPS 安装页。
+
+`assets/qrcodes/Telegram.png` 和 `assets/qrcodes/Google.png` 分别指向安装页的 `#telegram` 和 `#google`，提供各自的一键安装和复制 URL 入口。
 
 `docs/install/index.html` 提供固定安装按钮和 Raw URL，不从查询参数拼接任意跳转目标。`install.js` 只处理复制按钮，复制失败会选择地址并提示手动复制。通过 GitHub Pages 从 `main` 分支的 `/docs` 发布，`docs/.nojekyll` 保留静态文件。
 
@@ -56,6 +64,7 @@ GitHub 仓库为 [tianvan/shadowrocket-modules](https://github.com/tianvan/shado
 ```powershell
 pwsh -NoProfile -File scripts/validate.ps1
 pwsh -NoProfile -File scripts/validate.ps1 -CheckRemote
+pwsh -NoProfile -File scripts/test-rule-content.ps1
 git diff --check
 ```
 

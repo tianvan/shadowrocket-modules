@@ -1,0 +1,5 @@
+#!name=Telegram 分流
+#!desc=引用 blackmatrix7 的 Telegram 规则集，Telegram 域名、数据中心 IP 及 ASN 等相关请求使用当前代理节点。
+
+[Rule]
+RULE-SET,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Telegram/Telegram.list,PROXY

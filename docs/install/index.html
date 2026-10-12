@@ -30,7 +30,7 @@
   <main>
     <h1>小火箭配置与模块安装</h1>
     <p class="intro">用 Safari 打开本页，点击安装按钮。如果出现“在 Shadowrocket 中打开”，请选择打开。无需在模块页面找扫码入口。</p>
-    <p><a href="#direct">直连配置</a> · <a href="#openai">OpenAI</a> · <a href="#twitter">Twitter / X</a></p>
+    <p><a href="#direct">直连配置</a> · <a href="#openai">OpenAI</a> · <a href="#twitter">Twitter / X</a> · <a href="#telegram">Telegram</a> · <a href="#google">Google</a></p>
 
     <section id="direct">
       <h2>① 导入直连基础配置</h2>
@@ -65,12 +65,34 @@
       <p class="note">小火箭 → 配置 → 模块 → 右上角＋ → 粘贴 URL → 下载并启用。已使用 direct.conf 时无需重复导入配置；可与 OpenAI 模块同时启用。</p>
     </section>
 
+    <section id="telegram">
+      <h2>④ 安装 Telegram 分流模块</h2>
+      <p>匹配 Telegram 域名、数据中心 IP 和 ASN 等相关请求，使用当前代理节点。</p>
+      <a class="install" href="shadowrocket://install?module=https://raw.githubusercontent.com/tianvan/shadowrocket-modules/main/modules/routing/Telegram.module">安装 Telegram 模块</a>
+      <label for="url-3">按钮无法打开？复制模块 URL</label>
+      <textarea id="url-3" readonly spellcheck="false">https://raw.githubusercontent.com/tianvan/shadowrocket-modules/main/modules/routing/Telegram.module</textarea>
+      <button type="button" data-copy="url-3" data-status="status-3">复制模块 URL</button>
+      <p class="status" id="status-3" role="status" aria-live="polite"></p>
+      <p class="note">下载后启用 Telegram 分流，保持全局路由为「配置」。已使用 direct.conf 时无需重复导入配置。通话还取决于节点的 UDP 能力及 Telegram 的通话设置。</p>
+    </section>
+
+    <section id="google">
+      <h2>⑤ 安装 Google 分流模块</h2>
+      <p>匹配 Google 搜索、Gmail、Drive 及上游规则中的其他服务，使用当前代理节点。</p>
+      <a class="install" href="shadowrocket://install?module=https://raw.githubusercontent.com/tianvan/shadowrocket-modules/main/modules/routing/Google.module">安装 Google 模块</a>
+      <label for="url-4">按钮无法打开？复制模块 URL</label>
+      <textarea id="url-4" readonly spellcheck="false">https://raw.githubusercontent.com/tianvan/shadowrocket-modules/main/modules/routing/Google.module</textarea>
+      <button type="button" data-copy="url-4" data-status="status-4">复制模块 URL</button>
+      <p class="status" id="status-4" role="status" aria-live="polite"></p>
+      <p class="note">Google 模块不包含 YouTube 专属规则。广告、统计、公共资源和部分国内可访问的 Google 域名也可能走代理。已使用 direct.conf 时无需重复导入配置。</p>
+    </section>
+
     <section>
-      <h2>④ 连接并验证</h2>
+      <h2>⑥ 连接并验证</h2>
       <ol>
-        <li>当前配置选择 <strong>direct.conf</strong>，按需要启用 <strong>ChatGPT / OpenAI 分流</strong>和 / 或 <strong>Twitter / X 分流</strong>模块。</li>
+        <li>当前配置选择 <strong>direct.conf</strong>，按需要启用 OpenAI、Twitter / X、Telegram、Google 分流模块，可以同时启用。</li>
         <li>首页全局路由选择<strong>配置</strong>，选中可用代理节点并连接。</li>
-        <li>在“测试规则”检查已启用服务对应的域名（chatgpt.com 或 x.com）→ PROXY，baidu.com → DIRECT，再打开相应服务实测。</li>
+        <li>在“测试规则”检查已启用服务对应的域名（chatgpt.com、x.com、telegram.org 或 google.com）→ PROXY，baidu.com → DIRECT，再打开相应服务实测。</li>
       </ol>
       <p class="note">无需安装证书。若此前装过 Direct.conf，请用本页的小写 direct.conf 下载地址重新添加。其他分流模块也会影响请求策略。</p>
     </section>

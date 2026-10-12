@@ -1,0 +1,5 @@
+#!name=Google 分流
+#!desc=引用 blackmatrix7 的 Google 规则集，搜索、Gmail、Drive 等相关请求使用当前代理节点；不包含 YouTube 专属规则。
+
+[Rule]
+RULE-SET,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Google/Google.list,PROXY

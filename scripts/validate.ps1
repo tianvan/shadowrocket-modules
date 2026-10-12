@@ -43,9 +43,11 @@ function Test-RuleContent {
                     $prefix = 0
                     if ($cidr.Count -ne 2 -or -not [Net.IPAddress]::TryParse($cidr[0], [ref]$address) -or
                         $cidr[1] -notmatch '^\d+$' -or -not [int]::TryParse($cidr[1], [ref]$prefix)) { return $false }
-                    if ($type -eq 'IP-CIDR') {
-                        if ($address.AddressFamily -ne [Net.Sockets.AddressFamily]::InterNetwork -or
-                            $cidr[0] -notmatch '^\d{1,3}(?:\.\d{1,3}){3}$' -or $prefix -gt 32) { return $false }
+                    if ($type -eq 'IP-CIDR6' -and $address.AddressFamily -ne [Net.Sockets.AddressFamily]::InterNetworkV6) {
+                        return $false
+                    }
+                    if ($address.AddressFamily -eq [Net.Sockets.AddressFamily]::InterNetwork) {
+                        if ($cidr[0] -notmatch '^\d{1,3}(?:\.\d{1,3}){3}$' -or $prefix -gt 32) { return $false }
                     } elseif ($address.AddressFamily -ne [Net.Sockets.AddressFamily]::InterNetworkV6 -or $prefix -gt 128) {
                         return $false
                     }
