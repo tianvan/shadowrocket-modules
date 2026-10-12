@@ -4,17 +4,21 @@
 
 ## 模块
 
-| 模块 | 用途 | 策略 | HTTPS 解密 |
-| --- | --- | --- | --- |
-| [OpenAI](modules/routing/OpenAI.module) | ChatGPT / OpenAI 及规则集中包含的公共依赖域名 | PROXY，使用当前选择的节点 | 无需 |
+| 模块 | 用途 | 策略 | HTTPS 解密 | 下载 |
+| --- | --- | --- | --- | --- |
+| [OpenAI](modules/routing/OpenAI.module) | ChatGPT / OpenAI 及规则集中包含的公共依赖域名 | PROXY，使用当前选择的节点 | 无需 | [模块 Raw URL](https://raw.githubusercontent.com/tianvan/shadowrocket-modules/main/modules/routing/OpenAI.module) |
 
 模块引用 [blackmatrix7/ios_rule_script 的 OpenAI 规则集](https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/Shadowrocket/OpenAI)。域名列表由上游维护，本仓库维护引用方式和策略。
 
 ## 安装
 
-本仓库目前只有本地 Git 项目，尚未发布到 GitHub，因此还没有可在手机上下载的公开模块 URL。
+复制下面的模块 URL：
 
-发布后，打开 GitHub 的 `modules/routing/OpenAI.module` 文件并复制 **Raw** 地址，在小火箭中执行：
+```text
+https://raw.githubusercontent.com/tianvan/shadowrocket-modules/main/modules/routing/OpenAI.module
+```
+
+在小火箭中执行：
 
 1. **配置 → 模块 → 右上角＋**，粘贴模块 Raw URL 并下载。
 2. 启用模块，保留正在使用的基础配置。

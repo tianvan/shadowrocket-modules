@@ -6,7 +6,13 @@
 
 ## 通过 URL 安装
 
-仓库发布到 GitHub 后，在 `modules/routing/OpenAI.module` 的文件页面点击 **Raw**，复制下载地址。不要复制 GitHub 的 `/blob/` 网页地址。
+复制 [OpenAI 模块 Raw URL](https://raw.githubusercontent.com/tianvan/shadowrocket-modules/main/modules/routing/OpenAI.module)：
+
+```text
+https://raw.githubusercontent.com/tianvan/shadowrocket-modules/main/modules/routing/OpenAI.module
+```
+
+也可以在 `modules/routing/OpenAI.module` 的 GitHub 文件页面点击 **Raw**，复制下载地址。不要复制 GitHub 的 `/blob/` 网页地址。
 
 小火箭：**配置 → 模块 → 右上角＋ → 粘贴 URL → 下载 → 启用**。保留默认或其他正在使用的基础配置，首页全局路由选择「配置」，连接代理节点。必要时点击当前配置的「使用配置 / 编译配置」，使模块引用的资源重新拉取并应用。
 

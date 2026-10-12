@@ -84,3 +84,7 @@
 - 联网检查真实 OpenAI.list：35 条规则，0 错误。PowerShell 语法、YAML 结构、只读权限、固定 checkout 提交和 Git diff 检查通过。
 - Minor 待改进：缺失/空元信息的提示包含文件名和原因，但没有行号；其他逐行结构错误包含行号。
 - 验收范围：仅验证本仓库约定的格式和远程正文；原生 Shadowrocket 全语法、iPhone 实际分流、GitHub Actions 执行及公开下载仍需发布和手机验证。上游未来变化及用户节点可用性由运行时状态决定，无法由本地校验保证。
+
+## 发布授权（2026-10-12）
+
+用户授权提交并 push。目标为当前 GitHub 账号 `tianvan` 下的公开仓库 `shadowrocket-modules`，远程名为 `origin`，分支为 `main`；README 和使用说明使用对应的真实 Raw URL。公开下载和 GitHub Actions 结果在推送后检查，iPhone 实测仍由用户完成。

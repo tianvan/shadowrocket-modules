@@ -28,7 +28,7 @@
 
 ## 发布与回退
 
-本地 Git 项目尚未发布，没有公开安装地址。发布为公开 GitHub 仓库后，从模块文件页面复制真实 Raw URL，并更新 README 的安装入口。
+GitHub 仓库为 [tianvan/shadowrocket-modules](https://github.com/tianvan/shadowrocket-modules)，模块安装入口见 README。发布更新时，先检查再提交并推送 `main`，确认 GitHub Actions 和公开模块下载结果。
 
 安装文件路径固定为 `modules/routing/OpenAI.module`。更新内容使用 Git 提交记录，路径不加入日期或版本号。确需移动时保留旧路径兼容，避免用户已有 URL 失效。
 
