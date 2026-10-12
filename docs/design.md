@@ -28,6 +28,8 @@ shadowrocket-modules/
 
 未来新增复写模块时创建 `modules/rewrite/`。第一版不创建空目录或占位文件。
 
+2026-10-12 后续扩展：用户批准「只代理 OpenAI 相关请求，其余直连」，新增 `configs/Direct.conf`。其规则只包含 FINAL,DIRECT，General 根据高星标社区配置核对后明确设置 DNS 与回退行为；证据见 `docs/community-validation.md`。OpenAI 模块仍不改变基础配置的 DNS 或兜底。
+
 ## 各部分职责
 
 | 路径 | 职责 |

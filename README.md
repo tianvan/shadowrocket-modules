@@ -12,6 +12,20 @@
 
 ## 安装
 
+### ChatGPT 相关请求代理，其余直连（推荐组合）
+
+先通过 **配置页面右上角＋** 下载 [Direct.conf](https://raw.githubusercontent.com/tianvan/shadowrocket-modules/main/configs/Direct.conf)，点击下载后的文件并选择「使用配置」：
+
+```text
+https://raw.githubusercontent.com/tianvan/shadowrocket-modules/main/configs/Direct.conf
+```
+
+这个基础配置的分流规则只有 `FINAL,DIRECT`，另明确设置 DNS 与回退行为：直连解析失败不自动改走代理，代理 UDP 不支持时不回退直连。只启用 OpenAI 模块时，匹配其规则的请求走代理，其余直连。启用其他分流模块后，也会应用那些模块的规则。
+
+配置选择已核对多个高星标社区项目，详见 [社区核对记录](docs/community-validation.md)。
+
+### 添加 OpenAI 模块
+
 复制下面的模块 URL：
 
 ```text
@@ -21,7 +35,7 @@ https://raw.githubusercontent.com/tianvan/shadowrocket-modules/main/modules/rout
 在小火箭中执行：
 
 1. **配置 → 模块 → 右上角＋**，粘贴模块 Raw URL 并下载。
-2. 启用模块，保留正在使用的基础配置。
+2. 启用模块。需要其余直连时使用上面的 Direct.conf；也可以配合自己的基础配置使用。
 3. 首页 **全局路由选择「配置」**，选择可用的代理节点并连接。
 4. 使用「测试规则」检查 `chatgpt.com`，确认最终策略为 `PROXY`，再验证实际访问。
 
@@ -38,11 +52,14 @@ pwsh -NoProfile -File scripts/validate.ps1
 pwsh -NoProfile -File scripts/validate.ps1 -CheckRemote
 ```
 
-第一条检查模块格式、策略、UTF-8 编码和 LF 换行；第二条还检查远程规则内容。检查器只验证本仓库约定的格式，并非 Shadowrocket 原生解析器。实际分流和 ChatGPT 访问需要在 iPhone 上确认。
+第一条检查直连基础配置、模块格式、策略、UTF-8 编码和 LF 换行；第二条还检查远程规则内容。检查器只验证本仓库约定的格式，并非 Shadowrocket 原生解析器。实际分流和 ChatGPT 访问需要在 iPhone 上确认。
+
+在本仓库运行时，校验会要求 `configs/Direct.conf` 存在；CI 也显式使用 `-RequireDirectConfig`，防止安装入口被误删。
 
 ## 目录
 
 ```text
+configs/         可通过 URL 下载的基础配置
 modules/routing/  分流模块，保持发布路径稳定
 docs/            使用说明、维护约定、已批准设计和实施计划
 scripts/         本地与 CI 共用的校验工具

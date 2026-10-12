@@ -8,6 +8,14 @@
 
 模块直接引用 [blackmatrix7/ios_rule_script](https://github.com/blackmatrix7/ios_rule_script) 的 `master` 分支，不在本仓库镜像域名列表。因此不需要 fork、Git submodule 或同步上游工作流。
 
+## 直连基础配置
+
+`configs/Direct.conf` 的规则部分只包含 `FINAL,DIRECT`，General 明确设置 DNS 和回退策略。它供「指定模块代理，其余直连」场景使用，不增加其他代理规则。现有校验器会拒绝额外规则、代理兜底、重复兜底，以及不符合目标的 General 设置。来源与参数取舍见 [社区核对记录](community-validation.md)。
+
+新建其他类型的完整配置时，需要先扩展校验器和相应文档。不要把完整配置 URL 添加到模块页面。
+
+校验当前仓库和 CI 时必须存在 `configs/Direct.conf`。对独立模块目录使用 `-Root` 时默认不要求完整配置；若该目录也要发布直连配置，添加 `-RequireDirectConfig`。
+
 ## 两种更新
 
 - **上游规则更新**：模块文件不变，小火箭通过「使用配置 / 编译配置」重新下载规则。直接引用分支地址意味着下一次刷新会跟随上游修改，不保证规则始终完整或无误。
@@ -30,7 +38,7 @@
 
 GitHub 仓库为 [tianvan/shadowrocket-modules](https://github.com/tianvan/shadowrocket-modules)，模块安装入口见 README。发布更新时，先检查再提交并推送 `main`，确认 GitHub Actions 和公开模块下载结果。
 
-安装文件路径固定为 `modules/routing/OpenAI.module`。更新内容使用 Git 提交记录，路径不加入日期或版本号。确需移动时保留旧路径兼容，避免用户已有 URL 失效。
+安装文件路径固定为 `modules/routing/OpenAI.module` 和 `configs/Direct.conf`。更新内容使用 Git 提交记录，路径不加入日期或版本号。确需移动时保留旧路径兼容，避免用户已有 URL 失效。
 
 上线前运行：
 

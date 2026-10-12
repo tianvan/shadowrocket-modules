@@ -18,7 +18,7 @@ jobs:
           persist-credentials: false
       - name: Validate local files
         shell: pwsh
-        run: ./scripts/validate.ps1
+        run: ./scripts/validate.ps1 -RequireDirectConfig
       - name: Validate upstream rules
         shell: pwsh
-        run: ./scripts/validate.ps1 -CheckRemote
+        run: ./scripts/validate.ps1 -CheckRemote -RequireDirectConfig

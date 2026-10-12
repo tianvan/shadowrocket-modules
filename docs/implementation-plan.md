@@ -88,3 +88,9 @@
 ## 发布授权（2026-10-12）
 
 用户授权提交并 push。目标为当前 GitHub 账号 `tianvan` 下的公开仓库 `shadowrocket-modules`，远程名为 `origin`，分支为 `main`；README 和使用说明使用对应的真实 Raw URL。公开下载和 GitHub Actions 结果在推送后检查，iPhone 实测仍由用户完成。
+
+## 直连场景扩展（2026-10-12）
+
+用户批准新增可通过 URL 下载的直连基础配置，并要求先核对社区热门项目。读取 Johnshall、Hackl0us、GMOogway、LOWERTOP 的实际文件后，新增 `configs/Direct.conf`，General 明确设置 DNS 与回退，Rule 仅 FINAL,DIRECT。详细依据保留在 `docs/community-validation.md`。
+
+验证器增加 `.conf` 的编码检查与 Direct.conf 参数/规则检查；18 个新用例、38 个原有用例、35 条真实上游规则、文档本地链接和 PowerShell/YAML 语法检查通过。公开 URL 和 GitHub Actions 结果在发布后验证；iPhone 原生解析与实际访问不由这些检查代替。

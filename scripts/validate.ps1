@@ -3,6 +3,7 @@
 param(
     [string]$Root = (Split-Path $PSScriptRoot -Parent),
     [switch]$CheckRemote,
+    [switch]$RequireDirectConfig,
     [ValidateRange(1, 120)][int]$TimeoutSeconds = 20
 )
 
@@ -77,7 +78,7 @@ function Read-RemoteRules {
 }
 
 function Invoke-ModuleValidation {
-    param([string]$Root, [switch]$CheckRemote, [int]$TimeoutSeconds)
+    param([string]$Root, [switch]$CheckRemote, [int]$TimeoutSeconds, [switch]$RequireDirectConfig)
     $errors = [System.Collections.Generic.List[string]]::new()
     $references = [System.Collections.Generic.List[object]]::new()
     $texts = @{}
@@ -88,10 +89,15 @@ function Invoke-ModuleValidation {
         return 1
     }
     $rootPath = (Resolve-Path -LiteralPath $Root).Path
+    $ownRoot = (Resolve-Path -LiteralPath (Split-Path $PSScriptRoot -Parent)).Path
+    if (($RequireDirectConfig -or $rootPath -eq $ownRoot) -and
+        -not (Test-Path -LiteralPath (Join-Path $rootPath 'configs/Direct.conf') -PathType Leaf)) {
+        $errors.Add('Missing required configuration: configs/Direct.conf')
+    }
     $files = @(Get-ChildItem -LiteralPath $rootPath -File -Force -Recurse | Where-Object {
         $relative = [System.IO.Path]::GetRelativePath($rootPath, $_.FullName).Replace('\', '/')
         $relative -notmatch '^(\.git|work)/' -and (
-            $_.Extension -in '.module', '.sgmodule', '.md', '.ps1', '.yaml', '.yml', '.json' -or
+            $_.Extension -in '.conf', '.module', '.sgmodule', '.md', '.ps1', '.yaml', '.yml', '.json' -or
             $_.Name -in '.gitattributes', '.gitignore'
         )
     })
@@ -107,6 +113,72 @@ function Invoke-ModuleValidation {
             $texts[$relative] = $content
             $checked++
         } catch { $errors.Add("${relative}: $($_.Exception.Message)") }
+    }
+    $configs = @($files | Where-Object { $_.Extension -eq '.conf' })
+    foreach ($config in $configs) {
+        $relative = [System.IO.Path]::GetRelativePath($rootPath, $config.FullName).Replace('\', '/')
+        if ($relative -cne 'configs/Direct.conf') {
+            $errors.Add("${relative}: Unsupported configuration; expected configs/Direct.conf.")
+            continue
+        }
+        if (-not $texts.ContainsKey($relative)) { continue }
+        $settings = @{}
+        $requiredSettings = @{
+            'fallback-dns-server' = 'system'
+            'dns-direct-fallback-proxy' = 'false'
+            'private-ip-answer' = 'true'
+            'udp-policy-not-supported-behaviour' = 'REJECT'
+        }
+        $configSection = ''
+        $configSections = [System.Collections.Generic.HashSet[string]]::new()
+        $configRules = [System.Collections.Generic.List[string]]::new()
+        $configLine = 0
+        foreach ($rawLine in ($texts[$relative] -split "`n")) {
+            $configLine++
+            $line = $rawLine.Trim()
+            $location = "${relative}:$configLine"
+            if (-not $line -or $line.StartsWith('#')) { continue }
+            if ($line -match '^\[(.+)\]$') {
+                $configSection = $Matches[1]
+                if ($configSection -cnotin 'General', 'Rule') {
+                    $errors.Add("${location}: Only [General] and [Rule] are allowed in Direct.conf.")
+                } elseif (-not $configSections.Add($configSection)) {
+                    $errors.Add("${location}: Duplicate [$configSection] section.")
+                }
+                continue
+            }
+            if ($configSection -ceq 'Rule') {
+                $configRules.Add($line)
+                continue
+            }
+            if ($configSection -cne 'General' -or $line -notmatch '^([a-z-]+)\s*=\s*(.+)$') {
+                $errors.Add("${location}: Expected a setting inside [General] or a rule inside [Rule].")
+                continue
+            }
+            $key = $Matches[1]
+            $value = $Matches[2].Trim()
+            if ($settings.ContainsKey($key)) { $errors.Add("${location}: Duplicate $key setting.") }
+            $settings[$key] = $value
+            if ($key -ceq 'dns-server') {
+                foreach ($url in ($value -split ',')) {
+                    $uri = $null
+                    if (-not [Uri]::TryCreate($url.Trim(), [UriKind]::Absolute, [ref]$uri) -or
+                        $uri.Scheme -ne 'https' -or -not $uri.Host -or $uri.UserInfo -or $uri.Fragment) {
+                        $errors.Add("${location}: dns-server must contain valid HTTPS DNS URLs.")
+                    }
+                }
+            } elseif (-not $requiredSettings.ContainsKey($key)) {
+                $errors.Add("${location}: Unsupported Direct.conf setting: $key")
+            } elseif ($value -cne $requiredSettings[$key]) {
+                $errors.Add("${location}: $key must be $($requiredSettings[$key]) for this routing policy.")
+            }
+        }
+        foreach ($key in @('dns-server') + @($requiredSettings.Keys)) {
+            if (-not $settings.ContainsKey($key)) { $errors.Add("${relative}: Missing required $key setting.") }
+        }
+        if (-not $configSections.Contains('Rule') -or $configRules.Count -ne 1 -or $configRules[0] -cne 'FINAL,DIRECT') {
+            $errors.Add("${relative}: [Rule] must contain only FINAL,DIRECT.")
+        }
     }
     $modules = @($files | Where-Object { $_.Extension -in '.module', '.sgmodule' })
     if ($modules.Count -eq 0) { $errors.Add('No module files found under modules/routing/.') }
@@ -177,14 +249,14 @@ function Invoke-ModuleValidation {
         }
     }
     foreach ($message in $errors) { Write-Output "ERROR: $message" }
-    Write-Output "Validation: $checked text files checked, $($modules.Count) modules, $remotePassed remote sets passed, $($errors.Count) errors."
+    Write-Output "Validation: $checked text files checked, $($configs.Count) configs, $($modules.Count) modules, $remotePassed remote sets passed, $($errors.Count) errors."
     if ($errors.Count -gt 0) { return 1 }
     return 0
 }
 
 # Dot-sourcing exposes functions without running or exiting the caller.
 if ($MyInvocation.InvocationName -ne '.') {
-    $results = @(Invoke-ModuleValidation -Root $Root -CheckRemote:$CheckRemote -TimeoutSeconds $TimeoutSeconds)
+    $results = @(Invoke-ModuleValidation -Root $Root -CheckRemote:$CheckRemote -TimeoutSeconds $TimeoutSeconds -RequireDirectConfig:$RequireDirectConfig)
     $code = [int]$results[-1]
     $results | Select-Object -SkipLast 1 | Write-Output
     exit $code
