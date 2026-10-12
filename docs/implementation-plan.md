@@ -1,6 +1,6 @@
 # shadowrocket-modules Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development or superpowers:executing-plans to implement this plan task-by-task. 本项目建议在当前聊天由主代理直接执行，不需要并行子代理。Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development or superpowers:executing-plans to implement this plan task-by-task. 本项目建议在当前聊天由主代理直接执行，不需要并行子代理。Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** 在本地建立可通过 GitHub Raw URL 安装的 OpenAI 分流模块仓库，附中文使用说明、轻量校验和 GitHub Actions。
 
@@ -41,11 +41,11 @@
 - 输入：已批准的设计、上游 OpenAI.list。
 - 输出：可直接被 Shadowrocket 模块 URL 安装机制读取的纯分流文件；可由 Task 2 扫描的 `modules/routing/*.module`。
 
-- [ ] 按设计建立目录和 OpenAI.module，至少包含 `#!name=ChatGPT / OpenAI 分流`、`#!desc`、`[Rule]` 与指定的 RULE-SET 行。
-- [ ] README 提供模块相对文件链接、功能范围和安装流程；明确发布前没有公开安装地址。usage.md 说明 PROXY 使用当前节点、全局路由选择配置、规则测试及下载状态。maintenance.md 区分模块更新和远程规则刷新，标明公共依赖域名可能影响其他应用。
-- [ ] 按 sire:gitignore 从 github/gitignore 的 Global/Windows.gitignore 获取系统模板，追加 `work/`、`.env`、`.env.*`、`!.env.example`；不复制真实密钥、节点订阅或证书。写 `.gitattributes` 使用 `* text=auto eol=lf`。
-- [ ] 检查模块恰好引用上述上游 URL，策略为 PROXY，未包含 FINAL、DNS、Script 或 MITM 段。对新增文件运行 `git diff --check`，并用 `git check-ignore -v --no-index` 检查忽略规则。
-- [ ] 提交模块、文档及 Git 配置，保留已批准设计的历史。
+- [x] 按设计建立目录和 OpenAI.module，至少包含 `#!name=ChatGPT / OpenAI 分流`、`#!desc`、`[Rule]` 与指定的 RULE-SET 行。
+- [x] README 提供模块相对文件链接、功能范围和安装流程；明确发布前没有公开安装地址。usage.md 说明 PROXY 使用当前节点、全局路由选择配置、规则测试及下载状态。maintenance.md 区分模块更新和远程规则刷新，标明公共依赖域名可能影响其他应用。
+- [x] 按 sire:gitignore 从 github/gitignore 的 Global/Windows.gitignore 获取系统模板，追加 `work/`、`.env`、`.env.*`、`!.env.example`；不复制真实密钥、节点订阅或证书。写 `.gitattributes` 使用 `* text=auto eol=lf`。
+- [x] 检查模块恰好引用上述上游 URL，策略为 PROXY，未包含 FINAL、DNS、Script 或 MITM 段。对新增文件运行 `git diff --check`，并用 `git check-ignore -v --no-index` 检查忽略规则。
+- [x] 提交模块、文档及 Git 配置，保留已批准设计的历史。
 
 ## Task 2: 校验脚本与 CI
 
@@ -60,17 +60,17 @@
 - 第一版 routing 模块只允许 `[Rule]` 配置段；允许的规则行为为带有 HTTPS URL 和内置策略 PROXY/DIRECT/REJECT 的 RULE-SET 或 DOMAIN-SET 引用。不尝试支持或验证尚未创建的复写模块。
 - 离线模式不访问网络；联网模式对引用的去重 URL 执行有超时的读取，RULE-SET 检查有效规则文本、DOMAIN-SET 检查有效域名文本，拒绝 HTML 和空数据。
 
-- [ ] 先在 `work/` 编写验收用例：合法模块通过；缺少 `#!name` 失败；错误策略失败；未预期的 `[MITM]` 段失败；BOM、非 UTF-8、CRLF 失败；无模块失败。联网用例通过本地临时 HTTP fixture 验证 HTML、空内容、404 与有效规则响应；生产模块仍要求 HTTPS，HTTP fixture 只用于验证响应分类函数。
-- [ ] 验收脚本先检查目标校验器存在，运行并确认失败原因是尚未创建校验器。
-- [ ] 实现脚本，边界解析使用严格 UTF-8 解码，输出可定位的错误；网络检查读取实际响应正文，不只检查 HEAD 或状态码。函数界面为 `Test-RuleContent([string]$Content, [string]$Kind)`，返回 `$true/$false`；脚本入口不能在 dot-source 时自行执行，方便验收调用。
-- [ ] 运行离线和本地 fixture 验收；对真实 OpenAI 规则执行联网校验，输出来源 URL 和有效规则数量。网络失败时如实报告，不绕过检查。
-- [ ] 创建 validate.yml：push、pull_request、workflow_dispatch；`permissions: contents: read`；ubuntu-latest；使用审阅过的 actions/checkout 提交 SHA；分别执行 PowerShell 离线和联网校验。工作流不含 secrets、发布、定时同步或写仓库操作。
-- [ ] 检查 YAML 结构、工作流命令及固定 action 引用；检查所有项目文本的编码和换行，运行 `git diff --check`。
-- [ ] 提交校验脚本和 CI，最终检查分支、提交历史及工作区状态。
+- [x] 先在 `work/` 编写验收用例：合法模块通过；缺少 `#!name` 失败；错误策略失败；未预期的 `[MITM]` 段失败；BOM、非 UTF-8、CRLF 失败；无模块失败。联网用例通过本地临时 HTTP fixture 验证 HTML、空内容、404 与有效规则响应；生产模块仍要求 HTTPS，HTTP fixture 只用于验证响应分类函数。
+- [x] 验收脚本先检查目标校验器存在，运行并确认失败原因是尚未创建校验器。
+- [x] 实现脚本，边界解析使用严格 UTF-8 解码，输出可定位的错误；网络检查读取实际响应正文，不只检查 HEAD 或状态码。函数界面为 `Test-RuleContent([string]$Content, [string]$Kind)`，返回 `$true/$false`；脚本入口不能在 dot-source 时自行执行，方便验收调用。
+- [x] 运行离线和本地 fixture 验收；对真实 OpenAI 规则执行联网校验，输出来源 URL 和有效规则数量。网络失败时如实报告，不绕过检查。
+- [x] 创建 validate.yml：push、pull_request、workflow_dispatch；`permissions: contents: read`；ubuntu-latest；使用审阅过的 actions/checkout 提交 SHA；分别执行 PowerShell 离线和联网校验。工作流不含 secrets、发布、定时同步或写仓库操作。
+- [x] 检查 YAML 结构、工作流命令及固定 action 引用；检查所有项目文本的编码和换行，运行 `git diff --check`。
+- [x] 提交校验脚本和 CI，最终检查分支、提交历史及工作区状态。
 
 ## 完成与实际限制
 
 - 本地结果包含已批准设计中的所有文件，以及保存批准和实施决策的 `docs/design.md`、`docs/implementation-plan.md`。
-- 已在当前环境可用工具中检查：没有将当前 projectless 聊天改绑到普通本地目录的接口。项目创建后，用户可在 Codex 的项目管理界面添加 `D:\Repos\shadowrocket-modules`；不通过修改内部数据库、伪装 managed worktree 或新建聊天替代当前聊天关联。
+- 用户已在 Codex 界面关联项目，当前聊天工作目录为 `D:\Repos\shadowrocket-modules`。
 - GitHub 仓库尚未创建，Actions 尚未在 GitHub 运行；手机上的原生模块解析和 ChatGPT 访问尚未验证。完成报告分别标明这些边界。
 - 发布授权取得后再创建 GitHub 仓库、更新真实 Raw URL、推送并检查公开下载结果。
