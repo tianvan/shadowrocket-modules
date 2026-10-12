@@ -11,8 +11,9 @@
 | [Telegram](modules/routing/Telegram.module) | Telegram 域名、数据中心 IP 及 ASN 等相关请求 | PROXY，使用当前选择的节点 | 无需 | [安装页](https://tianvan.github.io/shadowrocket-modules/install/#telegram) | [模块 Raw URL](https://raw.githubusercontent.com/tianvan/shadowrocket-modules/main/modules/routing/Telegram.module) |
 | [Google](modules/routing/Google.module) | 搜索、Gmail、Drive 等 Google 服务，不包含 YouTube 专属规则 | PROXY，使用当前选择的节点 | 无需 | [安装页](https://tianvan.github.io/shadowrocket-modules/install/#google) | [模块 Raw URL](https://raw.githubusercontent.com/tianvan/shadowrocket-modules/main/modules/routing/Google.module) |
 | [GitHub](modules/routing/GitHub.module) | GitHub 网站、Raw、Pages、下载资源、GHCR、npm 及部分 Copilot 相关请求 | PROXY，使用当前选择的节点 | 无需 | [安装页](https://tianvan.github.io/shadowrocket-modules/install/#github) | [模块 Raw URL](https://raw.githubusercontent.com/tianvan/shadowrocket-modules/main/modules/routing/GitHub.module) |
+| [Reddit](modules/routing/Reddit.module) | Reddit 主站、短链接及自有媒体资源 | PROXY，使用当前选择的节点 | 无需 | [安装页](https://tianvan.github.io/shadowrocket-modules/install/#reddit) | [模块 Raw URL](https://raw.githubusercontent.com/tianvan/shadowrocket-modules/main/modules/routing/Reddit.module) |
 
-模块分别引用 blackmatrix7/ios_rule_script 的 [OpenAI](https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/Shadowrocket/OpenAI)、[Twitter](https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/Shadowrocket/Twitter)、[Telegram](https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/Shadowrocket/Telegram)、[Google](https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/Shadowrocket/Google) 和 [GitHub](https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/Shadowrocket/GitHub) 规则集。规则列表由上游维护，本仓库维护引用方式和策略。
+模块分别引用 blackmatrix7/ios_rule_script 的 [OpenAI](https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/Shadowrocket/OpenAI)、[Twitter](https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/Shadowrocket/Twitter)、[Telegram](https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/Shadowrocket/Telegram)、[Google](https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/Shadowrocket/Google)、[GitHub](https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/Shadowrocket/GitHub) 和 [Reddit](https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/Shadowrocket/Reddit) 规则集。规则列表由上游维护，本仓库维护引用方式和策略。
 
 ## 安装
 
@@ -27,6 +28,20 @@
 | <img src="assets/qrcodes/Direct.png" alt="导入 direct.conf 二维码" width="256"> | <img src="assets/qrcodes/OpenAI.png" alt="安装 OpenAI 模块二维码" width="256"> |
 
 导入后选择 **direct.conf → 使用配置**，按需要启用服务模块，可以同时启用，首页 **全局路由选择「配置」**，连接可用代理节点。若安装按钮没有跳转，可点页面的「复制 URL」后返回对应添加页面粘贴，仍无需手输地址。二维码解码与网页按钮可在电脑验证；iPhone 的应用跳转和导入需实机确认。
+
+### 添加 Reddit 模块
+
+用 iPhone Safari 打开 [Reddit 一键安装页](https://tianvan.github.io/shadowrocket-modules/install/#reddit)，点击「安装 Reddit 模块」。电脑上可用 iPhone 系统相机扫描：
+
+<img src="assets/qrcodes/Reddit.png" alt="安装 Reddit 模块二维码" width="256">
+
+下载后启用 **Reddit 分流**，保持 direct.conf 和全局路由「配置」，可与其他服务模块同时启用，已使用 direct.conf 时无需重复导入配置。检查 `reddit.com`、`i.redd.it`、`v.redd.it`、`redditstatic.com` → `PROXY`，`baidu.com` → `DIRECT`，再验证帖子、图片和视频加载。
+
+模块覆盖上游列出的 Reddit 域名；帖子中的外部网站仍按已有分流规则处理。无需 HTTPS 解密或证书。按钮无法打开时，复制模块 URL 到 **配置 → 模块 → 右上角＋**：
+
+```text
+https://raw.githubusercontent.com/tianvan/shadowrocket-modules/main/modules/routing/Reddit.module
+```
 
 ### 添加 GitHub 模块
 

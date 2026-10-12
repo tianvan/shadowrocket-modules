@@ -9,8 +9,11 @@
 | `modules/routing/Telegram.module` | [Telegram.list](https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Telegram/Telegram.list) | PROXY |
 | `modules/routing/Google.module` | [Google.list](https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Google/Google.list) | PROXY |
 | `modules/routing/GitHub.module` | [GitHub.list](https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/GitHub/GitHub.list) | PROXY |
+| `modules/routing/Reddit.module` | [Reddit.list](https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Reddit/Reddit.list) | PROXY |
 
 模块直接引用 [blackmatrix7/ios_rule_script](https://github.com/blackmatrix7/ios_rule_script) 的 `master` 分支，不在本仓库镜像域名列表。因此不需要 fork、Git submodule 或同步上游工作流。
+
+Reddit.list 以 RULE-SET 单独使用，覆盖主站、短链接和 Reddit 自有媒体域名；帖子中的外部网站或资源不自动纳入代理范围。
 
 GitHub.list 以 RULE-SET 单独使用。列表覆盖 GitHub 网站、Raw、Pages、下载资源和 GHCR，还包含 npm、部分 Copilot 域名及 GitHub 关键词；不承诺覆盖 Copilot 的全部外部依赖。
 
@@ -48,7 +51,7 @@ Telegram.list 和 Google.list 各自以 RULE-SET 单独使用。Telegram 已包�
 
 GitHub 仓库为 [tianvan/shadowrocket-modules](https://github.com/tianvan/shadowrocket-modules)，模块安装入口见 README。发布更新时，先检查再提交并推送 `main`，确认 GitHub Actions 和公开模块下载结果。
 
-安装文件路径固定为 `modules/routing/OpenAI.module`、`modules/routing/Twitter.module`、`modules/routing/Telegram.module`、`modules/routing/Google.module`、`modules/routing/GitHub.module` 和 `configs/direct.conf`。更新内容使用 Git 提交记录，路径不加入日期或版本号。确需移动时保留旧路径兼容，避免用户已有 URL 失效。
+安装文件路径固定为 `modules/routing/OpenAI.module`、`modules/routing/Twitter.module`、`modules/routing/Telegram.module`、`modules/routing/Google.module`、`modules/routing/GitHub.module`、`modules/routing/Reddit.module` 和 `configs/direct.conf`。更新内容使用 Git 提交记录，路径不加入日期或版本号。确需移动时保留旧路径兼容，避免用户已有 URL 失效。
 
 `assets/qrcodes/Direct.png` 和 `assets/qrcodes/OpenAI.png` 编码 HTTPS 安装页地址，分别为 `https://tianvan.github.io/shadowrocket-modules/install/#direct` 和 `https://tianvan.github.io/shadowrocket-modules/install/#openai`。iPhone 使用系统相机打开网页，再点击页面安装按钮或复制 URL；小火箭模块添加页面本身没有扫码入口。
 
@@ -57,6 +60,8 @@ GitHub 仓库为 [tianvan/shadowrocket-modules](https://github.com/tianvan/shado
 `assets/qrcodes/Telegram.png` 和 `assets/qrcodes/Google.png` 分别指向安装页的 `#telegram` 和 `#google`，提供各自的一键安装和复制 URL 入口。
 
 `assets/qrcodes/GitHub.png` 指向 `https://tianvan.github.io/shadowrocket-modules/install/#github`，提供 GitHub 模块的一键安装和复制 URL 入口。
+
+`assets/qrcodes/Reddit.png` 指向 `https://tianvan.github.io/shadowrocket-modules/install/#reddit`，提供 Reddit 模块的一键安装和复制 URL 入口。
 
 `docs/install/index.html` 提供固定安装按钮和 Raw URL，不从查询参数拼接任意跳转目标。`install.js` 只处理复制按钮，复制失败会选择地址并提示手动复制。通过 GitHub Pages 从 `main` 分支的 `/docs` 发布，`docs/.nojekyll` 保留静态文件。
 
