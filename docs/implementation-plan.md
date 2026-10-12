@@ -91,6 +91,12 @@
 
 ## 直连场景扩展（2026-10-12）
 
-用户批准新增可通过 URL 下载的直连基础配置，并要求先核对社区热门项目。读取 Johnshall、Hackl0us、GMOogway、LOWERTOP 的实际文件后，新增 `configs/Direct.conf`，General 明确设置 DNS 与回退，Rule 仅 FINAL,DIRECT。详细依据保留在 `docs/community-validation.md`。
+用户批准新增可通过 URL 下载的直连基础配置，并要求先核对社区热门项目。读取 Johnshall、Hackl0us、GMOogway、LOWERTOP 的实际文件后，新增 `configs/direct.conf`，General 明确设置 DNS 与回退，Rule 仅 FINAL,DIRECT。详细依据保留在 `docs/community-validation.md`。
 
-验证器增加 `.conf` 的编码检查与 Direct.conf 参数/规则检查；18 个新用例、38 个原有用例、35 条真实上游规则、文档本地链接和 PowerShell/YAML 语法检查通过。公开 URL 和 GitHub Actions 结果在发布后验证；iPhone 原生解析与实际访问不由这些检查代替。
+验证器增加 `.conf` 的编码检查与 direct.conf 参数/规则检查；18 个新用例、38 个原有用例、35 条真实上游规则、文档本地链接和 PowerShell/YAML 语法检查通过。公开 URL 和 GitHub Actions 结果在发布后验证；iPhone 原生解析与实际访问不由这些检查代替。
+
+## 手机安装入口修正（2026-10-12）
+
+用户要求基础配置首字母小写，并实测模块添加界面只有 URL 入口，没有二维码扫描。将配置正式更名为 `configs/direct.conf`，同步修改所有引用、校验和二维码。安装图片不再直接编码自定义协议，而改为 HTTPS 安装页。
+
+新增 `docs/install/` 静态页面：Safari 点击固定的配置导入/模块安装按钮，应用内跳转失败时使用复制 URL；浏览器拒绝剪贴板操作时选择地址供长按复制。GitHub Pages 从 main:/docs 发布，不接受任意 URL 查询参数用于跳转。电脑测试只核对链接、复制行为和二维码内容，不宣称 iPhone 原生安装已通过。

@@ -12,22 +12,24 @@
 
 ## 安装
 
-### 二维码安装
+### 手机安装页与二维码
 
-用 iPhone 在小火箭的扫码入口扫描下列二维码，分别导入配置和模块；相机若能识别安装链接，也可以点击提示跳转到小火箭。若页面就在同一部 iPhone 上，可保存图片后从扫码入口选择相册（以当前版本提供的选项为准）。
+在 iPhone 的 **Safari** 打开 [安装页](https://tianvan.github.io/shadowrocket-modules/install/)，点击「导入 direct.conf」和「安装 OpenAI 模块」，允许跳转到 Shadowrocket。
+
+如果页面显示在电脑上，用 **iPhone 系统相机**扫描下列二维码打开安装页。模块添加页面只有 URL 输入入口，没有扫码入口；二维码不需要在模块页面扫描。
 
 | ① 导入直连基础配置 | ② 安装 OpenAI 模块 |
 | --- | --- |
-| <img src="assets/qrcodes/Direct.png" alt="导入 Direct.conf 二维码" width="256"> | <img src="assets/qrcodes/OpenAI.png" alt="安装 OpenAI 模块二维码" width="256"> |
+| <img src="assets/qrcodes/Direct.png" alt="导入 direct.conf 二维码" width="256"> | <img src="assets/qrcodes/OpenAI.png" alt="安装 OpenAI 模块二维码" width="256"> |
 
-导入后选择 **Direct.conf → 使用配置**，启用 **ChatGPT / OpenAI 分流**模块；只启用该分流模块，首页 **全局路由选择「配置」**，连接可用代理节点。二维码包含小火箭安装链接，无需输入 URL。二维码内容可以解码验证；iPhone 的扫码跳转和导入仍需实机确认。
+导入后选择 **direct.conf → 使用配置**，启用 **ChatGPT / OpenAI 分流**模块；只启用该分流模块，首页 **全局路由选择「配置」**，连接可用代理节点。若安装按钮没有跳转，可点页面的「复制 URL」后返回对应添加页面粘贴，仍无需手输地址。二维码解码与网页按钮可在电脑验证；iPhone 的应用跳转和导入需实机确认。
 
 ### ChatGPT 相关请求代理，其余直连（推荐组合）
 
-先通过 **配置页面右上角＋** 下载 [Direct.conf](https://raw.githubusercontent.com/tianvan/shadowrocket-modules/main/configs/Direct.conf)，点击下载后的文件并选择「使用配置」：
+先通过 **配置页面右上角＋** 下载 [direct.conf](https://raw.githubusercontent.com/tianvan/shadowrocket-modules/main/configs/direct.conf)，点击下载后的文件并选择「使用配置」：
 
 ```text
-https://raw.githubusercontent.com/tianvan/shadowrocket-modules/main/configs/Direct.conf
+https://raw.githubusercontent.com/tianvan/shadowrocket-modules/main/configs/direct.conf
 ```
 
 这个基础配置的分流规则只有 `FINAL,DIRECT`，另明确设置 DNS 与回退行为：直连解析失败不自动改走代理，代理 UDP 不支持时不回退直连。只启用 OpenAI 模块时，匹配其规则的请求走代理，其余直连。启用其他分流模块后，也会应用那些模块的规则。
@@ -45,7 +47,7 @@ https://raw.githubusercontent.com/tianvan/shadowrocket-modules/main/modules/rout
 在小火箭中执行：
 
 1. **配置 → 模块 → 右上角＋**，粘贴模块 Raw URL 并下载。
-2. 启用模块。需要其余直连时使用上面的 Direct.conf；也可以配合自己的基础配置使用。
+2. 启用模块。需要其余直连时使用上面的 direct.conf；也可以配合自己的基础配置使用。
 3. 首页 **全局路由选择「配置」**，选择可用的代理节点并连接。
 4. 使用「测试规则」检查 `chatgpt.com`，确认最终策略为 `PROXY`，再验证实际访问。
 
@@ -64,14 +66,15 @@ pwsh -NoProfile -File scripts/validate.ps1 -CheckRemote
 
 第一条检查直连基础配置、模块格式、策略、UTF-8 编码和 LF 换行；第二条还检查远程规则内容。检查器只验证本仓库约定的格式，并非 Shadowrocket 原生解析器。实际分流和 ChatGPT 访问需要在 iPhone 上确认。
 
-在本仓库运行时，校验会要求 `configs/Direct.conf` 存在；CI 也显式使用 `-RequireDirectConfig`，防止安装入口被误删。
+在本仓库运行时，校验会要求 `configs/direct.conf` 存在；CI 也显式使用 `-RequireDirectConfig`，防止安装入口被误删。
 
 ## 目录
 
 ```text
 configs/         可通过 URL 下载的基础配置
 modules/routing/  分流模块，保持发布路径稳定
-assets/qrcodes/   配置与模块的安装二维码
+assets/qrcodes/   打开 HTTPS 安装页的二维码
+docs/install/    Safari 安装按钮与复制 URL 页面
 docs/            使用说明、维护约定、已批准设计和实施计划
 scripts/         本地与 CI 共用的校验工具
 .github/workflows/ GitHub Actions 检查

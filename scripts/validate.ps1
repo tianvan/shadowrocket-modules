@@ -91,13 +91,13 @@ function Invoke-ModuleValidation {
     $rootPath = (Resolve-Path -LiteralPath $Root).Path
     $ownRoot = (Resolve-Path -LiteralPath (Split-Path $PSScriptRoot -Parent)).Path
     if (($RequireDirectConfig -or $rootPath -eq $ownRoot) -and
-        -not (Test-Path -LiteralPath (Join-Path $rootPath 'configs/Direct.conf') -PathType Leaf)) {
-        $errors.Add('Missing required configuration: configs/Direct.conf')
+        -not (Test-Path -LiteralPath (Join-Path $rootPath 'configs/direct.conf') -PathType Leaf)) {
+        $errors.Add('Missing required configuration: configs/direct.conf')
     }
     $files = @(Get-ChildItem -LiteralPath $rootPath -File -Force -Recurse | Where-Object {
         $relative = [System.IO.Path]::GetRelativePath($rootPath, $_.FullName).Replace('\', '/')
         $relative -notmatch '^(\.git|work)/' -and (
-            $_.Extension -in '.conf', '.module', '.sgmodule', '.md', '.ps1', '.yaml', '.yml', '.json' -or
+            $_.Extension -in '.conf', '.module', '.sgmodule', '.md', '.ps1', '.yaml', '.yml', '.json', '.html', '.js' -or
             $_.Name -in '.gitattributes', '.gitignore'
         )
     })
@@ -117,8 +117,8 @@ function Invoke-ModuleValidation {
     $configs = @($files | Where-Object { $_.Extension -eq '.conf' })
     foreach ($config in $configs) {
         $relative = [System.IO.Path]::GetRelativePath($rootPath, $config.FullName).Replace('\', '/')
-        if ($relative -cne 'configs/Direct.conf') {
-            $errors.Add("${relative}: Unsupported configuration; expected configs/Direct.conf.")
+        if ($relative -cne 'configs/direct.conf') {
+            $errors.Add("${relative}: Unsupported configuration; expected configs/direct.conf.")
             continue
         }
         if (-not $texts.ContainsKey($relative)) { continue }
@@ -141,7 +141,7 @@ function Invoke-ModuleValidation {
             if ($line -match '^\[(.+)\]$') {
                 $configSection = $Matches[1]
                 if ($configSection -cnotin 'General', 'Rule') {
-                    $errors.Add("${location}: Only [General] and [Rule] are allowed in Direct.conf.")
+                    $errors.Add("${location}: Only [General] and [Rule] are allowed in direct.conf.")
                 } elseif (-not $configSections.Add($configSection)) {
                     $errors.Add("${location}: Duplicate [$configSection] section.")
                 }
@@ -168,7 +168,7 @@ function Invoke-ModuleValidation {
                     }
                 }
             } elseif (-not $requiredSettings.ContainsKey($key)) {
-                $errors.Add("${location}: Unsupported Direct.conf setting: $key")
+                $errors.Add("${location}: Unsupported direct.conf setting: $key")
             } elseif ($value -cne $requiredSettings[$key]) {
                 $errors.Add("${location}: $key must be $($requiredSettings[$key]) for this routing policy.")
             }

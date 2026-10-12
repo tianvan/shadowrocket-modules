@@ -26,9 +26,9 @@
 
 ## 本仓库验收
 
-- 检查 Direct.conf 的规则只包含 FINAL,DIRECT，必需 General 参数不会被删除、重复或改为违背目标的值。
+- 检查 direct.conf 的规则只包含 FINAL,DIRECT，必需 General 参数不会被删除、重复或改为违背目标的值。
 - 检查 OpenAI 模块引用的上游真实内容及编码；它包含公共依赖域名，不是只针对 ChatGPT App 进程。
 - 本地 18 个直连配置用例及原有 38 个模块/远程正文用例通过，真实 OpenAI 规则下载得到 35 条。两个 DoH 服务在当前电脑上使用 DNS wire-format 查询 example.com 均得到有效响应，另外使用 `--noproxy '*'` 的请求也通过；这只说明当前电脑网络与服务的结果，不代表 iPhone 网络已验证。
-- 在 iPhone 中只启用 OpenAI 模块并使用 Direct.conf：ChatGPT 核心域名应匹配 PROXY，example.com / baidu.com / youtube.com 应匹配 DIRECT。
+- 在 iPhone 中只启用 OpenAI 模块并使用 direct.conf：ChatGPT 核心域名应匹配 PROXY，example.com / baidu.com / youtube.com 应匹配 DIRECT。
 - 禁用模块并重新应用配置，chatgpt.com 应切回 DIRECT；再启用时恢复 PROXY。
 - 以上规则结果和 ChatGPT 实际访问均需要用户在 iPhone 验证，本地校验不声明它们已通过。

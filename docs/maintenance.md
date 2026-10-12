@@ -10,11 +10,11 @@
 
 ## 直连基础配置
 
-`configs/Direct.conf` 的规则部分只包含 `FINAL,DIRECT`，General 明确设置 DNS 和回退策略。它供「指定模块代理，其余直连」场景使用，不增加其他代理规则。现有校验器会拒绝额外规则、代理兜底、重复兜底，以及不符合目标的 General 设置。来源与参数取舍见 [社区核对记录](community-validation.md)。
+`configs/direct.conf` 的规则部分只包含 `FINAL,DIRECT`，General 明确设置 DNS 和回退策略。它供「指定模块代理，其余直连」场景使用，不增加其他代理规则。现有校验器会拒绝额外规则、代理兜底、重复兜底，以及不符合目标的 General 设置。来源与参数取舍见 [社区核对记录](community-validation.md)。
 
 新建其他类型的完整配置时，需要先扩展校验器和相应文档。不要把完整配置 URL 添加到模块页面。
 
-校验当前仓库和 CI 时必须存在 `configs/Direct.conf`。对独立模块目录使用 `-Root` 时默认不要求完整配置；若该目录也要发布直连配置，添加 `-RequireDirectConfig`。
+校验当前仓库和 CI 时必须存在 `configs/direct.conf`。对独立模块目录使用 `-Root` 时默认不要求完整配置；若该目录也要发布直连配置，添加 `-RequireDirectConfig`。
 
 ## 两种更新
 
@@ -38,11 +38,15 @@
 
 GitHub 仓库为 [tianvan/shadowrocket-modules](https://github.com/tianvan/shadowrocket-modules)，模块安装入口见 README。发布更新时，先检查再提交并推送 `main`，确认 GitHub Actions 和公开模块下载结果。
 
-安装文件路径固定为 `modules/routing/OpenAI.module` 和 `configs/Direct.conf`。更新内容使用 Git 提交记录，路径不加入日期或版本号。确需移动时保留旧路径兼容，避免用户已有 URL 失效。
+安装文件路径固定为 `modules/routing/OpenAI.module` 和 `configs/direct.conf`。更新内容使用 Git 提交记录，路径不加入日期或版本号。确需移动时保留旧路径兼容，避免用户已有 URL 失效。
 
-`assets/qrcodes/Direct.png` 和 `assets/qrcodes/OpenAI.png` 分别编码配置导入与模块安装协议，引用上述固定 Raw URL。仅修改配置或模块内容时二维码无需重做；改变仓库名、分支或安装文件路径时，需要同步更新二维码和安装说明，并用独立二维码读取器验证解码内容。
+`assets/qrcodes/Direct.png` 和 `assets/qrcodes/OpenAI.png` 编码 HTTPS 安装页地址，分别为 `https://tianvan.github.io/shadowrocket-modules/install/#direct` 和 `https://tianvan.github.io/shadowrocket-modules/install/#openai`。iPhone 使用系统相机打开网页，再点击页面安装按钮或复制 URL；小火箭模块添加页面本身没有扫码入口。
 
-协议依据：[Shadowrocket 社区手册 URL-Schemes](https://github.com/LOWERTOP/Shadowrocket#url-schemes)。当前生成结果使用标准黑白二维码和四格空白边框，不叠加图标。二维码数据已可在电脑解码核对，但手机识别、跳转和导入需要实机验证。
+`docs/install/index.html` 提供固定安装按钮和 Raw URL，不从查询参数拼接任意跳转目标。`install.js` 只处理复制按钮，复制失败会选择地址并提示手动复制。通过 GitHub Pages 从 `main` 分支的 `/docs` 发布，`docs/.nojekyll` 保留静态文件。
+
+页面按钮的协议依据：[Shadowrocket 社区手册 URL-Schemes](https://github.com/LOWERTOP/Shadowrocket#url-schemes)。当前二维码使用标准黑白和四格空白边框；二维码解码和复制行为在电脑验证，手机应用跳转、导入仍需要实机验证。
+
+仅修改模块或配置内容无需重新生成二维码。若改变仓库、分支或文件路径，同步更新安装页按钮、复制地址和文档；安装页地址改变时再更新二维码。2026-10-12 根据用户要求将配置由 Direct.conf 更名为 direct.conf，旧 Raw URL 不再作为安装入口。
 
 上线前运行：
 
