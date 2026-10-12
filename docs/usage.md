@@ -14,13 +14,31 @@
 | --- | --- |
 | <img src="../assets/qrcodes/Direct.png" alt="导入 direct.conf" width="256"> | <img src="../assets/qrcodes/OpenAI.png" alt="安装 OpenAI 模块" width="256"> |
 
-导入后：**direct.conf → 使用配置**，按需要启用 OpenAI、Twitter / X、Telegram、Google 模块，可以同时启用，首页全局路由选择「配置」，连接可用节点。希望其余直连时，只启用自己需要的服务模块。
+导入后：**direct.conf → 使用配置**，按需要启用 OpenAI、Twitter / X、Telegram、Google、GitHub 模块，可以同时启用，首页全局路由选择「配置」，连接可用节点。希望其余直连时，只启用自己需要的服务模块。
 
 二维码编码 HTTPS 安装页地址。网页按钮使用社区手册记录的 `shadowrocket://config/add/{url}` 和 `shadowrocket://install?module={url}` 安装协议，它们只是现有公开下载地址的快捷入口，不包含节点、账号或证书。手机仍需验证应用跳转和导入。
 
 如果按钮无法跳转，点页面的「复制配置 URL」或「复制模块 URL」，返回对应的 URL 添加页粘贴。若浏览器禁止自动复制，页面会选中地址，长按选择「复制」即可。
 
 原来的 `Direct.conf` 下载地址已改为小写 `direct.conf`；曾导入旧地址时，使用当前地址重新添加配置，确认成功后再删除旧配置。
+
+## 添加 GitHub 分流
+
+在 iPhone Safari 打开 [GitHub 一键安装页](https://tianvan.github.io/shadowrocket-modules/install/#github)，点击「安装 GitHub 模块」。电脑上浏览时用 iPhone 系统相机扫码：
+
+<img src="../assets/qrcodes/GitHub.png" alt="安装 GitHub 模块" width="256">
+
+按钮无法打开时，点「复制模块 URL」，在 **配置 → 模块 → 右上角＋** 粘贴并下载：
+
+```text
+https://raw.githubusercontent.com/tianvan/shadowrocket-modules/main/modules/routing/GitHub.module
+```
+
+启用 **GitHub 分流**，保持当前配置为 direct.conf、全局路由为「配置」，连接可用节点。可以继续启用其他服务模块，已使用 direct.conf 时无需重复导入配置。
+
+上游 GitHub.list 建议以 RULE-SET 单独使用，覆盖 github.com、githubusercontent.com、github.io、githubassets.com、ghcr.io 等，还包含 npmjs.com、npmjs.org、githubcopilot.com 和 GitHub 关键词规则。匹配范围不限于 GitHub 主站，不保证覆盖 Copilot 的全部外部依赖。本模块不添加 DNS、FINAL、脚本或 HTTPS 解密。
+
+在「规则集 URL」确认 GitHub.list 下载成功，用「测试规则」检查 `github.com`、`raw.githubusercontent.com`、`github.io`、`ghcr.io`、`registry.npmjs.org` → `PROXY`；使用 direct.conf 且仅启用所需服务模块时，`baidu.com` → `DIRECT`。再打开 GitHub 仓库、Raw 文件或下载资源实测。禁用 GitHub 模块并重新使用配置后，github.com 应变为 DIRECT；重新启用后应恢复 PROXY。
 
 ## 添加 Telegram 和 Google 分流
 

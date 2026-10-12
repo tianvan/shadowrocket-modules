@@ -1,0 +1,5 @@
+#!name=GitHub 分流
+#!desc=引用 blackmatrix7 的 GitHub 规则集，GitHub、Raw、Pages、GHCR、npm 及部分 Copilot 相关请求使用当前代理节点。
+
+[Rule]
+RULE-SET,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/GitHub/GitHub.list,PROXY

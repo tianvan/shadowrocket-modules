@@ -10,8 +10,9 @@
 | [Twitter / X](modules/routing/Twitter.module) | Twitter / X、短链接、媒体及 Grok 等上游规则覆盖的请求 | PROXY，使用当前选择的节点 | 无需 | [安装页](https://tianvan.github.io/shadowrocket-modules/install/#twitter) | [模块 Raw URL](https://raw.githubusercontent.com/tianvan/shadowrocket-modules/main/modules/routing/Twitter.module) |
 | [Telegram](modules/routing/Telegram.module) | Telegram 域名、数据中心 IP 及 ASN 等相关请求 | PROXY，使用当前选择的节点 | 无需 | [安装页](https://tianvan.github.io/shadowrocket-modules/install/#telegram) | [模块 Raw URL](https://raw.githubusercontent.com/tianvan/shadowrocket-modules/main/modules/routing/Telegram.module) |
 | [Google](modules/routing/Google.module) | 搜索、Gmail、Drive 等 Google 服务，不包含 YouTube 专属规则 | PROXY，使用当前选择的节点 | 无需 | [安装页](https://tianvan.github.io/shadowrocket-modules/install/#google) | [模块 Raw URL](https://raw.githubusercontent.com/tianvan/shadowrocket-modules/main/modules/routing/Google.module) |
+| [GitHub](modules/routing/GitHub.module) | GitHub 网站、Raw、Pages、下载资源、GHCR、npm 及部分 Copilot 相关请求 | PROXY，使用当前选择的节点 | 无需 | [安装页](https://tianvan.github.io/shadowrocket-modules/install/#github) | [模块 Raw URL](https://raw.githubusercontent.com/tianvan/shadowrocket-modules/main/modules/routing/GitHub.module) |
 
-模块分别引用 blackmatrix7/ios_rule_script 的 [OpenAI](https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/Shadowrocket/OpenAI)、[Twitter](https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/Shadowrocket/Twitter)、[Telegram](https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/Shadowrocket/Telegram) 和 [Google](https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/Shadowrocket/Google) 规则集。规则列表由上游维护，本仓库维护引用方式和策略。
+模块分别引用 blackmatrix7/ios_rule_script 的 [OpenAI](https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/Shadowrocket/OpenAI)、[Twitter](https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/Shadowrocket/Twitter)、[Telegram](https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/Shadowrocket/Telegram)、[Google](https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/Shadowrocket/Google) 和 [GitHub](https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/Shadowrocket/GitHub) 规则集。规则列表由上游维护，本仓库维护引用方式和策略。
 
 ## 安装
 
@@ -26,6 +27,20 @@
 | <img src="assets/qrcodes/Direct.png" alt="导入 direct.conf 二维码" width="256"> | <img src="assets/qrcodes/OpenAI.png" alt="安装 OpenAI 模块二维码" width="256"> |
 
 导入后选择 **direct.conf → 使用配置**，按需要启用服务模块，可以同时启用，首页 **全局路由选择「配置」**，连接可用代理节点。若安装按钮没有跳转，可点页面的「复制 URL」后返回对应添加页面粘贴，仍无需手输地址。二维码解码与网页按钮可在电脑验证；iPhone 的应用跳转和导入需实机确认。
+
+### 添加 GitHub 模块
+
+用 iPhone Safari 打开 [GitHub 一键安装页](https://tianvan.github.io/shadowrocket-modules/install/#github)，点击「安装 GitHub 模块」。电脑上可用 iPhone 系统相机扫描：
+
+<img src="assets/qrcodes/GitHub.png" alt="安装 GitHub 模块二维码" width="256">
+
+下载后启用 **GitHub 分流**，保持 direct.conf 和全局路由「配置」，可与现有服务模块同时启用，已使用 direct.conf 时无需重复导入配置。检查 `github.com`、`raw.githubusercontent.com`、`github.io`、`ghcr.io`、`registry.npmjs.org` → `PROXY`，`baidu.com` → `DIRECT`，再打开仓库页面或下载文件实测。
+
+上游规则还包含 npm、部分 Copilot 域名和 GitHub 关键词，因此覆盖范围不限于 GitHub 主站，不保证覆盖 Copilot 的全部外部依赖。无需 HTTPS 解密或证书。按钮无法打开时，复制模块 URL 到 **配置 → 模块 → 右上角＋**：
+
+```text
+https://raw.githubusercontent.com/tianvan/shadowrocket-modules/main/modules/routing/GitHub.module
+```
 
 ### 添加 Telegram 和 Google 模块
 
