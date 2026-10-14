@@ -30,7 +30,7 @@
   <main>
     <h1>小火箭配置与模块安装</h1>
     <p class="intro">用 Safari 打开本页，点击安装按钮。如果出现“在 Shadowrocket 中打开”，请选择打开。无需在模块页面找扫码入口。</p>
-    <p><a href="#direct">直连配置</a> · <a href="#openai">OpenAI</a> · <a href="#twitter">Twitter / X</a> · <a href="#telegram">Telegram</a> · <a href="#google">Google</a> · <a href="#github">GitHub</a> · <a href="#reddit">Reddit</a></p>
+    <p><a href="#direct">直连配置</a> · <a href="#openai">OpenAI</a> · <a href="#twitter">Twitter / X</a> · <a href="#telegram">Telegram</a> · <a href="#google">Google</a> · <a href="#github">GitHub</a> · <a href="#reddit">Reddit</a> · <a href="#gemini">Gemini</a></p>
 
     <section id="direct">
       <h2>① 导入直连基础配置</h2>
@@ -109,12 +109,23 @@
       <p class="note">下载后启用 Reddit 分流，保持全局路由为「配置」。已使用 direct.conf 时无需重复导入配置，可继续启用其他服务模块。帖子中的外部网站按已有分流规则处理。</p>
     </section>
 
+    <section id="gemini">
+      <h2>⑧ 安装 Gemini 分流模块</h2>
+      <p>匹配 Gemini、Bard、AI Studio 及上游列出的 AI 相关域名和关键词，使用当前代理节点。</p>
+      <a class="install" href="shadowrocket://install?module=https://raw.githubusercontent.com/tianvan/shadowrocket-modules/main/modules/routing/Gemini.module">安装 Gemini 模块</a>
+      <label for="url-7">按钮无法打开？复制模块 URL</label>
+      <textarea id="url-7" readonly spellcheck="false">https://raw.githubusercontent.com/tianvan/shadowrocket-modules/main/modules/routing/Gemini.module</textarea>
+      <button type="button" data-copy="url-7" data-status="status-7">复制模块 URL</button>
+      <p class="status" id="status-7" role="status" aria-live="polite"></p>
+      <p class="note">下载后启用 Gemini 分流。与 Google 模块存在覆盖重叠，两者都使用当前节点。仅启用 Gemini 时不保证覆盖全部登录和媒体依赖，实际失败请求需核对日志。已使用 direct.conf 时无需重复导入配置。</p>
+    </section>
+
     <section>
-      <h2>⑧ 连接并验证</h2>
+      <h2>⑨ 连接并验证</h2>
       <ol>
-        <li>当前配置选择 <strong>direct.conf</strong>，按需要启用 OpenAI、Twitter / X、Telegram、Google、GitHub、Reddit 分流模块，可以同时启用。</li>
+        <li>当前配置选择 <strong>direct.conf</strong>，按需要启用 OpenAI、Twitter / X、Telegram、Google、GitHub、Reddit、Gemini 分流模块，可以同时启用。</li>
         <li>首页全局路由选择<strong>配置</strong>，选中可用代理节点并连接。</li>
-        <li>在“测试规则”检查已启用服务对应的域名（chatgpt.com、x.com、telegram.org、google.com、github.com 或 reddit.com）→ PROXY，baidu.com → DIRECT，再打开相应服务实测。</li>
+        <li>在“测试规则”检查已启用服务对应的域名（chatgpt.com、x.com、telegram.org、google.com、github.com、reddit.com 或 gemini.google.com）→ PROXY，baidu.com → DIRECT，再打开相应服务实测。</li>
       </ol>
       <p class="note">无需安装证书。若此前装过 Direct.conf，请用本页的小写 direct.conf 下载地址重新添加。其他分流模块也会影响请求策略。</p>
     </section>

@@ -14,13 +14,31 @@
 | --- | --- |
 | <img src="../assets/qrcodes/Direct.png" alt="导入 direct.conf" width="256"> | <img src="../assets/qrcodes/OpenAI.png" alt="安装 OpenAI 模块" width="256"> |
 
-导入后：**direct.conf → 使用配置**，按需要启用 OpenAI、Twitter / X、Telegram、Google、GitHub、Reddit 模块，可以同时启用，首页全局路由选择「配置」，连接可用节点。希望其余直连时，只启用自己需要的服务模块。
+导入后：**direct.conf → 使用配置**，按需要启用 OpenAI、Twitter / X、Telegram、Google、GitHub、Reddit、Gemini 模块，可以同时启用，首页全局路由选择「配置」，连接可用节点。希望其余直连时，只启用自己需要的服务模块。
 
 二维码编码 HTTPS 安装页地址。网页按钮使用社区手册记录的 `shadowrocket://config/add/{url}` 和 `shadowrocket://install?module={url}` 安装协议，它们只是现有公开下载地址的快捷入口，不包含节点、账号或证书。手机仍需验证应用跳转和导入。
 
 如果按钮无法跳转，点页面的「复制配置 URL」或「复制模块 URL」，返回对应的 URL 添加页粘贴。若浏览器禁止自动复制，页面会选中地址，长按选择「复制」即可。
 
 原来的 `Direct.conf` 下载地址已改为小写 `direct.conf`；曾导入旧地址时，使用当前地址重新添加配置，确认成功后再删除旧配置。
+
+## 添加 Gemini 分流
+
+在 iPhone Safari 打开 [Gemini 一键安装页](https://tianvan.github.io/shadowrocket-modules/install/#gemini)，点击「安装 Gemini 模块」。电脑上浏览时用 iPhone 系统相机扫码：
+
+<img src="../assets/qrcodes/Gemini.png" alt="安装 Gemini 模块" width="256">
+
+按钮无法打开时，点「复制模块 URL」，在 **配置 → 模块 → 右上角＋** 粘贴并下载：
+
+```text
+https://raw.githubusercontent.com/tianvan/shadowrocket-modules/main/modules/routing/Gemini.module
+```
+
+启用 **Gemini 分流**，保持当前配置为 direct.conf、全局路由为「配置」，连接可用节点。已使用 direct.conf 时无需重复导入配置，可继续启用其他服务模块。
+
+上游 Gemini.list 建议以 RULE-SET 单独使用，已包含 BardAI。规则涉及 Gemini、AI Studio、DeepMind、Colab 和公共 API 域名及关键词，因此并非只匹配 Gemini App。与 Google 模块同时启用时存在重叠，两者都使用当前代理节点。仅启用 Gemini 时，不保证登录和媒体的所有 Google 依赖均已覆盖；遇到失败时核对日志中的具体域名，再决定是否启用 Google 模块。
+
+在「规则集 URL」确认 Gemini.list 下载成功，用「测试规则」检查 `gemini.google.com`、`ai.google.dev`、`generativelanguage.googleapis.com` → `PROXY`，`baidu.com` → `DIRECT`，再验证登录、对话和资源加载。验证禁用效果时，同时禁用 Google 等可能覆盖这些域名的模块，再重新使用配置；恢复 Gemini 后对应请求应恢复 PROXY。手机原生解析与实际访问需实测。
 
 ## 添加 Reddit 分流
 

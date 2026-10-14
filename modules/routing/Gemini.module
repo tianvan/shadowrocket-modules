@@ -1,0 +1,5 @@
+#!name=Gemini 分流
+#!desc=引用 blackmatrix7 的 Gemini 规则集，Gemini、Bard 和相关 AI 请求使用当前代理节点。
+
+[Rule]
+RULE-SET,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Shadowrocket/Gemini/Gemini.list,PROXY
